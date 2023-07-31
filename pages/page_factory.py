@@ -1,36 +1,71 @@
-from pages.home_page import BasePage
+from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 
 
 class CommonHeader(BasePage):
-    LOGO = (By.CSS_SELECTOR, "#logo")
-    SEARCH_INPUT = (By.NAME, "search")
-    SEARCH_BUTTON = (By.CSS_SELECTOR, "button[type='button']")
-    CART = (By.ID, "cart")
-    DROPDOWNS = (By.CLASS_NAME, "dropdown")
+    LOGO = (By.TAG_NAME, "img")
+    NEWSLETTER_SIGNUP_BUTTON = (By.LINK_TEXT, "Newsletter Signup")
+    BREWERIES_PAGE = (By.LINK_TEXT, 'Breweries')
+    DOCS_PAGE = (By.LINK_TEXT, 'Docs')
+    FAQ_PAGE = (By.LINK_TEXT, 'FAQ')
+    PROJECTS_PAGE = (By.LINK_TEXT, 'Projects')
+    ABOUT_PAGE = (By.LINK_TEXT, 'About')
 
-
-class NewProduct(BasePage):
-    GENERAL_TAB = (By.LINK_TEXT, '#tab-general')
-    DATA_TAB = (By.LINK_TEXT, '#tab-data')
-    PRODUCT_NAME = (By.ID, 'input-name1')
-    PRODUCT_META = (By.ID, 'input-meta-title1')
-    PRODUCT_MODEL = (By.ID, 'input-model')
-    SAVE_BUTTON = (By.CSS_SELECTOR, "button[type='submit']")
-
-    def fill_product_name(self, name, meta):
-        self.element(self.GENERAL_TAB).find_element(*self.PRODUCT_NAME)\
-            .send_keys(name)
-        self.driver.find_element(*self.PRODUCT_NAME).send_keys(name)
-        self.driver.find_element(*self.PRODUCT_META).send_keys(meta)
+    def get_logo(self):
+        self.driver.find_element(*self.LOGO).click()
         return self
 
-    def fill_product_model(self, model):
-        self.element(self.DATA_TAB).find_element(*self.PRODUCT_MODEL)\
-            .send_keys(model)
+    def get_navigation_menu(self):
+        self.driver.find_element(*self.BREWERIES_PAGE).click()
+        self.driver.find_element(*self.DOCS_PAGE).click()
+        self.driver.find_element(*self.FAQ_PAGE).click()
+        self.driver.find_element(*self.PROJECTS_PAGE).click()
+        self.driver.find_element(*self.ABOUT_PAGE).click()
         return self
 
-    def save_new_product(self):
-        self.driver.find_element(*self.SAVE_BUTTON)\
-            .click()
+    def get_newsletter_signup_button(self):
+        self.driver.find_element(*self.NEWSLETTER_SIGNUP_BUTTON).click()
+        return self
+
+    def check_common_header(self):
+        self.get_logo()
+        self.get_navigation_menu()
+        self.get_newsletter_signup_button()
+        self.driver.back()
+        return self
+
+
+class CommonFooter(BasePage):
+    FOOTER_TEXT = (By.TAG_NAME, "p")
+    HOME_PAGE = (By.LINK_TEXT, 'Home')
+    DOCS_PAGE = (By.LINK_TEXT, 'Docs')
+    FAQ_PAGE = (By.LINK_TEXT, 'FAQ')
+    PROJECTS_PAGE = (By.LINK_TEXT, 'Projects')
+    ABOUT_PAGE = (By.LINK_TEXT, 'About')
+    TWITTER_LINK = (By.LINK_TEXT, 'Twitter')
+    GITHUB_LINK = (By.LINK_TEXT, 'GitHub')
+    DISCORD_LINK = (By.LINK_TEXT, 'Discord')
+
+    def get_footer_text(self):
+        self.driver.find_element(*self.FOOTER_TEXT)
+        return self
+
+    def get_footer_navigation_menu(self):
+        self.driver.find_element(*self.HOME_PAGE).click()
+        self.driver.find_element(*self.DOCS_PAGE).click()
+        self.driver.find_element(*self.FAQ_PAGE).click()
+        self.driver.find_element(*self.PROJECTS_PAGE).click()
+        self.driver.find_element(*self.ABOUT_PAGE).click()
+        return self
+
+    def get_social_links_menu(self):
+        self.driver.find_element(*self.TWITTER_LINK).click()
+        self.driver.find_element(*self.GITHUB_LINK).click()
+        self.driver.find_element(*self.DISCORD_LINK).click()
+        return self
+
+    def check_common_footer(self):
+        self.get_footer_text()
+        self.get_footer_navigation_menu()
+        self.get_social_links_menu()
         return self
