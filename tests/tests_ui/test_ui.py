@@ -3,6 +3,10 @@ from pages.home_page import HomePage
 from pages.page_factory import CommonFooter, CommonHeader
 from pages.newsletter_signup_page import UserSignupPage
 from pages.brewerie_page import BreweriesPage
+from pages.docs_page import DocsPage
+from pages.faq_page import FaqPage
+from pages.projects_page import ProjectsPage
+from pages.about_page import AboutPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
@@ -61,7 +65,41 @@ def test_brewery_page(browser, url):
         BreweriesPage(browser).get_previous_page_button()
         browser.back()
 
+    CommonHeader(browser).check_common_header()
+    CommonFooter(browser).check_common_footer()
 
+
+@allure.title("Тест: docs page")
+def test_docs_page(browser, url):
+    browser.get(url=url + DocsPage(browser).URL)
+    DocsPage(browser).get_page_name()
+    DocsPage(browser).get_navigation_buttons()
+    CommonHeader(browser).check_common_header()
+    CommonFooter(browser).check_common_footer()
+
+
+@allure.title("Тест: faq page")
+def test_faq_page(browser, url):
+    browser.get(url=url + FaqPage(browser).URL)
+    FaqPage(browser).get_page_name()
+    CommonHeader(browser).check_common_header()
+    CommonFooter(browser).check_common_footer()
+
+
+@allure.title("Тест: projects page")
+def test_projects_page(browser, url):
+    browser.get(url=url + ProjectsPage(browser).URL)
+    ProjectsPage(browser).get_page_name()
+    CommonHeader(browser).check_common_header()
+    CommonFooter(browser).check_common_footer()
+
+
+@allure.title("Тест: about page")
+def test_about_page(browser, url):
+    browser.get(url=url + AboutPage(browser).URL)
+    AboutPage(browser).get_page_name()
+    CommonHeader(browser).check_common_header()
+    CommonFooter(browser).check_common_footer()
 
 
 
