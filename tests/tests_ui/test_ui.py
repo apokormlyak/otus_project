@@ -1,5 +1,3 @@
-import time
-
 from tests.tests_ui.data_store import urls, users
 from pages.home_page import HomePage
 from pages.page_factory import CommonFooter, CommonHeader
@@ -7,7 +5,11 @@ from pages.newsletter_signup_page import UserSignupPage
 from pages.brewerie_page import BreweriesPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
+import logging
 import allure
+
+logger = logging.getLogger(__name__)
 
 
 @allure.title("Тест: успешная подписка")
@@ -40,6 +42,26 @@ def test_brewery_page(browser, url):
     random_brewery = BreweriesPage(browser).get_random_brewery().text
     browser.get(url=url+BreweriesPage(browser).URL+'/' + random_brewery)
     browser.forward()
+
+    brewery_title = BreweriesPage(browser).get_title_of_brewery_page().text
+    brewery_title = brewery_title.replace('Breweries in ', '')
+    assert random_brewery == brewery_title
+
+    breweries_on_page = BreweriesPage(browser).get_breweries_on_page().text
+    pages_count = breweries_on_page.split()[-1][0]
+    BreweriesPage(browser).get_brewery_table()
+    if int(pages_count) == 1:
+        try:
+            BreweriesPage(browser).get_next_page_button()
+        except NoSuchElementException as e:
+            logger.info(e)
+    else:
+        BreweriesPage(browser).get_next_page_button()
+        browser.back()
+        BreweriesPage(browser).get_previous_page_button()
+        browser.back()
+
+
 
 
 

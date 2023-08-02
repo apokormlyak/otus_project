@@ -3,4 +3,5 @@ from selenium.webdriver.common.by import By
 
 
 class FaqPage(BasePage):
-    pass
+    URL = 'faq'
+

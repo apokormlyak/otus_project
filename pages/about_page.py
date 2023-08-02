@@ -3,4 +3,5 @@ from selenium.webdriver.common.by import By
 
 
 class AboutPage(BasePage):
-    pass
+    URL = 'about'
+

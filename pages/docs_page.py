@@ -3,4 +3,5 @@ from selenium.webdriver.common.by import By
 
 
 class DocsPage(BasePage):
-    pass
+    URL = 'documentation'
+
