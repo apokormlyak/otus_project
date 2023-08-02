@@ -60,7 +60,9 @@ class CommonFooter(BasePage):
 
     def get_social_links_menu(self):
         self.driver.find_element(*self.TWITTER_LINK).click()
+        self.driver.back()
         self.driver.find_element(*self.GITHUB_LINK).click()
+        self.driver.back()
         self.driver.find_element(*self.DISCORD_LINK).click()
         return self
 
