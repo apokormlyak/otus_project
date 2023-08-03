@@ -19,18 +19,21 @@ logger = logging.getLogger(__name__)
 
 
 @allure.title("Тест: успешная подписка")
+@allure.tag('UI')
 def test_correct_mail_signup(browser):
     browser.get(urls.SIGNUP_PAGE_URL)
     UserSignupPage(browser).correct_mail_signup(users.get_correct_email())
 
 
 @allure.title("Тест: неуспешная подписка")
+@allure.tag('UI')
 def test_wrong_mail_signup(browser):
     browser.get(urls.SIGNUP_PAGE_URL)
     UserSignupPage(browser).wrong_mail_signup(users.get_wrong_email())
 
 
 @allure.title("Тест: главная страница")
+@allure.tag('UI')
 def test_check_homepage_elements(browser, url):
     browser.get(url=url)
     HomePage(browser).check_homepage_elements()
@@ -43,6 +46,7 @@ def test_check_homepage_elements(browser, url):
 
 
 @allure.title("Тест: brewery page")
+@allure.tag('UI')
 def test_brewery_page(browser, url):
     browser.get(url=url+BreweriesPage(browser).URL)
     random_brewery = BreweriesPage(browser).get_random_brewery().text
@@ -74,6 +78,7 @@ def test_brewery_page(browser, url):
 
 
 @allure.title("Тест: docs page")
+@allure.tag('UI')
 def test_docs_page(browser, url):
     browser.get(url=url + DocsPage(browser).URL)
     DocsPage(browser).get_page_name()
@@ -83,6 +88,7 @@ def test_docs_page(browser, url):
 
 
 @allure.title("Тест: faq page")
+@allure.tag('UI')
 def test_faq_page(browser, url):
     browser.get(url=url + FaqPage(browser).URL)
     FaqPage(browser).get_page_name()
@@ -91,6 +97,7 @@ def test_faq_page(browser, url):
 
 
 @allure.title("Тест: projects page")
+@allure.tag('UI')
 def test_projects_page(browser, url):
     browser.get(url=url + ProjectsPage(browser).URL)
     ProjectsPage(browser).get_page_name()
@@ -99,6 +106,7 @@ def test_projects_page(browser, url):
 
 
 @allure.title("Тест: about page")
+@allure.tag('UI')
 def test_about_page(browser, url):
     browser.get(url=url + AboutPage(browser).URL)
     AboutPage(browser).get_page_name()

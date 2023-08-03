@@ -1,3 +1,4 @@
+import allure
 import pytest
 import jsonschema
 import requests
@@ -5,12 +6,16 @@ from tests.tests_api.helpers.urls import *
 from tests.tests_api.helpers.schema_validation import *
 
 
+@allure.title("API Тест: Получить список пивных")
+@allure.tag('API')
 def test_list_breweries():
     response = requests.get(url=BREWERY_BASE_URL)
     assert response.status_code == 200
     jsonschema.validate(instance=response.json(), schema=Brewery.schema)
 
 
+@allure.title("API Тест: Фильтрация списка по городу")
+@allure.tag('API')
 @pytest.mark.parametrize('value', ['san_diego', 'austin'])
 def test_filter_by_city(value):
     response = requests.get(url=BREWERY_BASE_URL + f'?by_city={value}')
@@ -19,6 +24,8 @@ def test_filter_by_city(value):
         assert value.replace('_', ' ') in brewery['city'].lower()
 
 
+@allure.title("API Тест: Фильтрация списка по названию")
+@allure.tag('API')
 @pytest.mark.parametrize('value', ['cooper', 'heineken'])
 def test_filter_by_name(value):
     response = requests.get(url=BREWERY_BASE_URL + f'?by_name={value}')
@@ -27,14 +34,18 @@ def test_filter_by_name(value):
         assert value in brewery['name'].lower()
 
 
+@allure.title("API Тест: Фильтрация списка по штату")
+@allure.tag('API')
 @pytest.mark.parametrize('value', ['new_york', 'california'])
-def test_filter_by_name(value):
+def test_filter_by_state(value):
     response = requests.get(url=BREWERY_BASE_URL + f'?by_state={value}')
     assert response.status_code == 200
     for brewery in response.json():
         assert value.replace('_', ' ') in brewery['state'].lower()
 
 
+@allure.title("API Тест: Одна пивная из списка")
+@allure.tag('API')
 def test_random_brewery():
     response = requests.get(url=BREWERY_BASE_URL + BREWERY_RANDOM)
     assert response.status_code == 200
@@ -42,6 +53,8 @@ def test_random_brewery():
     jsonschema.validate(instance=response.json(), schema=Brewery.schema)
 
 
+@allure.title("API Тест: Поиск пивной по размеру")
+@allure.tag('API')
 @pytest.mark.parametrize('number, length', [(3, 3), (50, 50), (100, 50)])
 def test_random_brewery_size(number, length):
     response = requests.get(url=BREWERY_BASE_URL + BREWERY_RANDOM + f'?size={number}')
@@ -49,9 +62,11 @@ def test_random_brewery_size(number, length):
     assert len(response.json()) == length
 
 
+@allure.title("API Тест: Поиск пивной по параметру")
+@allure.tag('API')
 @pytest.mark.xfail(reason="По запросу приходят лишние пивные", strict=True)
 @pytest.mark.parametrize('search_by', ['cat', 'dog', 'bird'])
-def test_random_brewery_size(search_by):
+def test_search_by_brewery(search_by):
     response = requests.get(url=BREWERY_BASE_URL + BREWERY_SEARCH + f'{search_by}')
     assert response.status_code == 200
     for brewery in response.json():
