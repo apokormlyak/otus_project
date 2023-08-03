@@ -1,5 +1,6 @@
-import pytest
 import os.path
+
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome import service
 

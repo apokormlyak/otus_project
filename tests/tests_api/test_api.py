@@ -1,57 +1,58 @@
 import pytest
+import jsonschema
 import requests
 from tests.tests_api.helpers.urls import *
+from tests.tests_api.helpers.schema_validation import *
 
 
-@pytest.mark.parametrize('resource', ['posts', 'comments', 'albums', 'photos', 'todos', 'users'])
-def test_list_posts(resource):
-    response = requests.get(url=JSON_PLACEHOLDER_BASE_URL + resource)
+def test_list_breweries():
+    response = requests.get(url=BREWERY_BASE_URL)
     assert response.status_code == 200
-    assert len(response.json()) > 0
+    jsonschema.validate(instance=response.json(), schema=Brewery.schema)
 
 
-@pytest.mark.parametrize('post_id', range(1, 5))
-def test_post_id(post_id):
-    response = requests.get(url=JSON_PLACEHOLDER_BASE_URL + f'posts/{post_id}')
+@pytest.mark.parametrize('value', ['san_diego', 'austin'])
+def test_filter_by_city(value):
+    response = requests.get(url=BREWERY_BASE_URL + f'?by_city={value}')
     assert response.status_code == 200
-    assert len(response.json()) > 0
-    assert response.json()['id'] == post_id
+    for brewery in response.json():
+        assert value.replace('_', ' ') in brewery['city'].lower()
 
 
-@pytest.mark.parametrize('post_id', range(1, 5))
-def test_get_comments_by_post_id(post_id):
-    response = requests.get(url=JSON_PLACEHOLDER_BASE_URL + f'posts/{post_id}/comments')
+@pytest.mark.parametrize('value', ['cooper', 'heineken'])
+def test_filter_by_name(value):
+    response = requests.get(url=BREWERY_BASE_URL + f'?by_name={value}')
     assert response.status_code == 200
-    assert len(response.json()) > 0
-    for comment in response.json():
-        assert comment['postId'] == post_id
+    for brewery in response.json():
+        assert value in brewery['name'].lower()
 
 
-@pytest.mark.xfail(reason="В документации указано, что настоящих изменений на сервере не присходит, но удаление "
-                          "иммитируется", strict=True)
-@pytest.mark.parametrize('post_id', range(1, 5))
-def test_delete_post(post_id):
-    response = requests.get(url=JSON_PLACEHOLDER_BASE_URL + f'posts/{post_id}')
+@pytest.mark.parametrize('value', ['new_york', 'california'])
+def test_filter_by_name(value):
+    response = requests.get(url=BREWERY_BASE_URL + f'?by_state={value}')
     assert response.status_code == 200
-    assert len(response.json()) > 0
-    assert response.json()['id'] == post_id
-    response_delete = requests.delete(url=JSON_PLACEHOLDER_BASE_URL + f'posts/{post_id}')
-    assert response_delete.status_code == 200
-    assert requests.get(url=JSON_PLACEHOLDER_BASE_URL + f'posts/{post_id}').json() == {}
+    for brewery in response.json():
+        assert value.replace('_', ' ') in brewery['state'].lower()
 
 
-
-@pytest.mark.xfail(reason="В документации указано, что настоящих изменений на сервере не присходит, но удаление "
-                          "иммитируется", strict=True)
-@pytest.mark.parametrize('post_id', range(1, 5))
-def test_patching_source(post_id):
-    response = requests.get(url=JSON_PLACEHOLDER_BASE_URL + f'posts/{post_id}')
+def test_random_brewery():
+    response = requests.get(url=BREWERY_BASE_URL + BREWERY_RANDOM)
     assert response.status_code == 200
-    assert len(response.json()) > 0
-    assert response.json()['id'] == post_id
-    data = {'title': 'Alisa'}
-    patch_response = requests.patch(url=JSON_PLACEHOLDER_BASE_URL + f'posts/{post_id}', json=data)
-    assert patch_response.status_code == 200
-    after_patch_response = requests.get(url=JSON_PLACEHOLDER_BASE_URL + f'posts/{post_id}')
-    assert after_patch_response.status_code == 200
-    assert after_patch_response.json()['title'] == 'Alisa'
+    assert len(response.json()) == 1
+    jsonschema.validate(instance=response.json(), schema=Brewery.schema)
+
+
+@pytest.mark.parametrize('number, length', [(3, 3), (50, 50), (100, 50)])
+def test_random_brewery_size(number, length):
+    response = requests.get(url=BREWERY_BASE_URL + BREWERY_RANDOM + f'?size={number}')
+    assert response.status_code == 200
+    assert len(response.json()) == length
+
+
+@pytest.mark.xfail(reason="По запросу приходят лишние пивные", strict=True)
+@pytest.mark.parametrize('search_by', ['cat', 'dog', 'bird'])
+def test_random_brewery_size(search_by):
+    response = requests.get(url=BREWERY_BASE_URL + BREWERY_SEARCH + f'{search_by}')
+    assert response.status_code == 200
+    for brewery in response.json():
+        assert search_by in brewery['name'].lower()

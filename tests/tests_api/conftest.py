@@ -33,5 +33,3 @@ def status_code(request):
 @pytest.fixture
 def method(request):
     return getattr(requests, request.config.getoption('--method'))
-
-

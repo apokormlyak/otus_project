@@ -1,5 +1,6 @@
-from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
+
+from pages.base_page import BasePage
 
 
 class HomePage(BasePage):
@@ -33,4 +34,3 @@ class HomePage(BasePage):
         self.get_headline_text()
         self.get_headline2_text()
         self.get_all_paragraphs_text()
-

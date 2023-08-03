@@ -1,17 +1,19 @@
-from tests.tests_ui.data_store import urls, users
-from pages.home_page import HomePage
-from pages.page_factory import CommonFooter, CommonHeader
-from pages.newsletter_signup_page import UserSignupPage
+import logging
+
+import allure
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
+from pages.about_page import AboutPage
 from pages.brewerie_page import BreweriesPage
 from pages.docs_page import DocsPage
 from pages.faq_page import FaqPage
+from pages.home_page import HomePage
+from pages.newsletter_signup_page import UserSignupPage
+from pages.page_factory import CommonFooter, CommonHeader
 from pages.projects_page import ProjectsPage
-from pages.about_page import AboutPage
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException
-import logging
-import allure
+from tests.tests_ui.data_store import urls, users
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +48,7 @@ def test_brewery_page(browser, url):
     random_brewery = BreweriesPage(browser).get_random_brewery().text
     browser.get(url=url+BreweriesPage(browser).URL+'/' + random_brewery)
     browser.forward()
-
+    WebDriverWait(browser, 5)
     brewery_title = BreweriesPage(browser).get_title_of_brewery_page().text
     brewery_title = brewery_title.replace('Breweries in ', '')
     assert random_brewery == brewery_title
@@ -62,6 +64,8 @@ def test_brewery_page(browser, url):
     else:
         BreweriesPage(browser).get_next_page_button()
         browser.back()
+        WebDriverWait(browser, 10).until(EC.element_to_be_clickable(BreweriesPage(browser)
+                                                                    .get_previous_page_button()))
         BreweriesPage(browser).get_previous_page_button()
         browser.back()
 
@@ -100,6 +104,3 @@ def test_about_page(browser, url):
     AboutPage(browser).get_page_name()
     CommonHeader(browser).check_common_header()
     CommonFooter(browser).check_common_footer()
-
-
-

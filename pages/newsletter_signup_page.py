@@ -1,7 +1,8 @@
-from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
+from pages.base_page import BasePage
 
 
 class UserSignupPage(BasePage):
@@ -22,7 +23,8 @@ class UserSignupPage(BasePage):
     def wrong_mail_signup(self, mail):
         self.signup(mail)
         self.driver.forward()
-        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(self.ERROR_MESSAGE))
+        WebDriverWait(self.driver, 5).until(EC
+                                            .visibility_of_element_located(self.ERROR_MESSAGE))
         self.driver.find_element(*self.ERROR_MESSAGE)
         self.driver.find_element(*self.ERROR_STATUS)
         return self
@@ -30,7 +32,8 @@ class UserSignupPage(BasePage):
     def correct_mail_signup(self, mail):
         self.signup(mail)
         self.driver.forward()
-        WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(self.CONFIRM_HUMANITY))
+        WebDriverWait(self.driver, 5).until(EC
+                                            .visibility_of_element_located(self.CONFIRM_HUMANITY))
         text = self.driver.find_element(*self.CONFIRM_HUMANITY).text
         assert text == 'Confirm Humanity'
         return self

@@ -1,9 +1,8 @@
 import random
 
-
 correct_emails = ['model@mail2.ua', 'model@mail5.ru', 'model@yandex.com']
 
-wrong_emails = ['model@1', 'model@3', 'mail4.ua', 'model@m']
+wrong_emails = ['model@1', 'model@3', 'mail4@.1', 'model@m']
 
 
 def get_correct_email():
