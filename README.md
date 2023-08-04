@@ -33,4 +33,4 @@ docker run -it tests --executor local
 ### Запуск Jenkins
 sudo systemctl start jenkins
 jenkins доступен по адресу:
-http://localhost:8081/
+http://localhost:8080/
