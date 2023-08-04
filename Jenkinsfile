@@ -21,7 +21,7 @@ pipeline {
            sh"""
            docker run -it try_again_tests --bversion ${bversion}
            --executor ${executor} --browser ${browser}
-           --url_opencart ${url_opencart}
+           --url ${url}
            """
          }
      }
