@@ -81,29 +81,37 @@ def test_check_homepage_elements(browser, url):
 @allure.tag('UI')
 def test_brewery_page(browser, url):
     browser.get(url=url+BreweriesPage(browser).URL)
-    random_brewery = BreweriesPage(browser).get_random_brewery().text
-    browser.get(url=url+BreweriesPage(browser).URL+'/' + random_brewery)
-    browser.forward()
-    WebDriverWait(browser, 5)
-    brewery_title = BreweriesPage(browser).get_title_of_brewery_page().text
-    brewery_title = brewery_title.replace('Breweries in ', '')
-    assert random_brewery == brewery_title
-
-    breweries_on_page = BreweriesPage(browser).get_breweries_on_page().text
-    pages_count = breweries_on_page.split()[-1][0]
-    BreweriesPage(browser).get_brewery_table()
-    if int(pages_count) == 1:
+    with allure.step('Поиск элементов на странице brewery'):
         try:
-            BreweriesPage(browser).get_next_page_button()
-        except NoSuchElementException as e:
-            logger.info(e)
-    else:
-        BreweriesPage(browser).get_next_page_button()
-        browser.back()
-        WebDriverWait(browser, 10).until(EC.element_to_be_clickable(BreweriesPage(browser)
-                                                                    .get_previous_page_button()))
-        BreweriesPage(browser).get_previous_page_button()
-        browser.back()
+            random_brewery = BreweriesPage(browser).get_random_brewery().text
+            browser.get(url=url+BreweriesPage(browser).URL+'/' + random_brewery)
+            browser.forward()
+            WebDriverWait(browser, 5)
+            brewery_title = BreweriesPage(browser).get_title_of_brewery_page().text
+            brewery_title = brewery_title.replace('Breweries in ', '')
+            assert random_brewery == brewery_title
+
+            breweries_on_page = BreweriesPage(browser).get_breweries_on_page().text
+            pages_count = breweries_on_page.split()[-1][0]
+            BreweriesPage(browser).get_brewery_table()
+            if int(pages_count) == 1:
+                try:
+                    BreweriesPage(browser).get_next_page_button()
+                except NoSuchElementException as e:
+                    logger.info(e)
+            else:
+                BreweriesPage(browser).get_next_page_button()
+                browser.back()
+                WebDriverWait(browser, 10).until(EC.element_to_be_clickable(BreweriesPage(browser)
+                                                                            .get_previous_page_button()))
+                BreweriesPage(browser).get_previous_page_button()
+                browser.back()
+        except NoSuchElementException as er:
+            allure.attach(
+                body=browser.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError(er.msg)
 
     with allure.step('Поиск элементов хэддера и футэра'):
         try:
