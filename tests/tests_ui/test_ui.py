@@ -62,19 +62,19 @@ def test_check_homepage_elements(browser, url):
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
             raise AssertionError(er.msg)
-    browser.forward()
-    WebDriverWait(browser, 5).until(EC.url_contains("documentation"))
-    browser.back()
-    with allure.step('Поиск элементов хэддера и футэра'):
-        try:
-            CommonHeader(browser).check_common_header()
-            CommonFooter(browser).check_common_footer()
-        except NoSuchElementException as er:
-            allure.attach(
-                body=browser.get_screenshot_as_png(),
-                name="screenshot_image",
-                attachment_type=allure.attachment_type.PNG)
-            raise AssertionError(er.msg)
+        browser.forward()
+        WebDriverWait(browser, 5).until(EC.url_contains("documentation"))
+        browser.back()
+        with allure.step('Поиск элементов хэддера и футэра'):
+            try:
+                CommonHeader(browser).check_common_header()
+                CommonFooter(browser).check_common_footer()
+            except NoSuchElementException as er:
+                allure.attach(
+                    body=browser.get_screenshot_as_png(),
+                    name="screenshot_image",
+                    attachment_type=allure.attachment_type.PNG)
+                raise AssertionError(er.msg)
 
 
 @allure.title("Тест: brewery page")
