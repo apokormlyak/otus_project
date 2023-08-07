@@ -24,7 +24,7 @@ pipeline {
            catchError {
               script {
           	     docker.image('tests').run()
-                    }
+
         	     }
       	 }
          }
