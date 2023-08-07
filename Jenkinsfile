@@ -38,7 +38,7 @@ pipeline {
       	   jdk: '',
       	   properties: [],
       	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: 'report']]
+      	   results: [[path: '/var/lib/jenkins/workspace/final_project/allure-report']]
     	   ])
   	        }
          }
