@@ -11,9 +11,11 @@ pipeline {
        }
     }
      stage('Pull browser') {
-        script {
-           docker.image('aerokube/selenoid:1.10.12').withRun('-p 4444:4444 -v /run/docker.sock:/var/run/docker.sock -v $PWD:/etc/selenoid/',
-            	'-timeout 600s -limit 2')
+        steps{
+            script {
+               docker.image('aerokube/selenoid:1.10.12').withRun('-p 4444:4444 -v /run/docker.sock:/var/run/docker.sock -v $PWD:/etc/selenoid/',
+                    '-timeout 600s -limit 2')
+            }
         }
      }
      stage('Run tests') {
@@ -32,7 +34,7 @@ pipeline {
       	   jdk: '',
       	   properties: [],
       	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: ' allure-results']]
+      	   results: [[path: 'allure-results']]
     	   ])
   	        }
          }
