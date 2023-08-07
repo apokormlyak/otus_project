@@ -22,27 +22,59 @@ logger = logging.getLogger(__name__)
 @allure.tag('UI')
 def test_correct_mail_signup(browser):
     browser.get(urls.SIGNUP_PAGE_URL)
-    UserSignupPage(browser).correct_mail_signup(users.get_correct_email())
+    with allure.step('Поиск сообщения при корректном входе'):
+        try:
+            UserSignupPage(browser).correct_mail_signup(users.get_correct_email())
+        except NoSuchElementException as er:
+            allure.attach(
+                body=browser.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError(er.msg)
 
 
 @allure.title("Тест: неуспешная подписка")
 @allure.tag('UI')
 def test_wrong_mail_signup(browser):
     browser.get(urls.SIGNUP_PAGE_URL)
-    UserSignupPage(browser).wrong_mail_signup(users.get_wrong_email())
+    with allure.step('Поиск сообщения при некорректном входе'):
+        try:
+            UserSignupPage(browser).wrong_mail_signup(users.get_wrong_email())
+        except NoSuchElementException as er:
+            allure.attach(
+                body=browser.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError(er.msg)
 
 
 @allure.title("Тест: главная страница")
 @allure.tag('UI')
 def test_check_homepage_elements(browser, url):
     browser.get(url=url)
-    HomePage(browser).check_homepage_elements()
-    HomePage(browser).get_button_to_documentation()
+    with allure.step('Поиск основных элементов на главной странице'):
+        try:
+            HomePage(browser).check_homepage_elements()
+            HomePage(browser).get_button_to_documentation()
+        except NoSuchElementException as er:
+            allure.attach(
+                body=browser.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError(er.msg)
     browser.forward()
     WebDriverWait(browser, 5).until(EC.url_contains("documentation"))
     browser.back()
-    CommonHeader(browser).check_common_header()
-    CommonFooter(browser).check_common_footer()
+    with allure.step('Поиск элементов хэддера и футэра'):
+        try:
+            CommonHeader(browser).check_common_header()
+            CommonFooter(browser).check_common_footer()
+        except NoSuchElementException as er:
+            allure.attach(
+                body=browser.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError(er.msg)
 
 
 @allure.title("Тест: brewery page")
@@ -73,42 +105,82 @@ def test_brewery_page(browser, url):
         BreweriesPage(browser).get_previous_page_button()
         browser.back()
 
-    CommonHeader(browser).check_common_header()
-    CommonFooter(browser).check_common_footer()
+    with allure.step('Поиск элементов хэддера и футэра'):
+        try:
+            CommonHeader(browser).check_common_header()
+            CommonFooter(browser).check_common_footer()
+        except NoSuchElementException as er:
+            allure.attach(
+                body=browser.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError(er.msg)
 
 
 @allure.title("Тест: docs page")
 @allure.tag('UI')
 def test_docs_page(browser, url):
     browser.get(url=url + DocsPage(browser).URL)
-    DocsPage(browser).get_page_name()
-    DocsPage(browser).get_navigation_buttons()
-    CommonHeader(browser).check_common_header()
-    CommonFooter(browser).check_common_footer()
+    with allure.step('Поиск элементов на странице документации'):
+        try:
+            DocsPage(browser).get_page_name()
+            DocsPage(browser).get_navigation_buttons()
+            CommonHeader(browser).check_common_header()
+            CommonFooter(browser).check_common_footer()
+        except NoSuchElementException as er:
+            allure.attach(
+                body=browser.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError(er.msg)
 
 
 @allure.title("Тест: faq page")
 @allure.tag('UI')
 def test_faq_page(browser, url):
     browser.get(url=url + FaqPage(browser).URL)
-    FaqPage(browser).get_page_name()
-    CommonHeader(browser).check_common_header()
-    CommonFooter(browser).check_common_footer()
+    with allure.step('Поиск элементов на странице Вопрос-ответ'):
+        try:
+            FaqPage(browser).get_page_name()
+            CommonHeader(browser).check_common_header()
+            CommonFooter(browser).check_common_footer()
+        except NoSuchElementException as er:
+            allure.attach(
+                body=browser.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError(er.msg)
 
 
 @allure.title("Тест: projects page")
 @allure.tag('UI')
 def test_projects_page(browser, url):
     browser.get(url=url + ProjectsPage(browser).URL)
-    ProjectsPage(browser).get_page_name()
-    CommonHeader(browser).check_common_header()
-    CommonFooter(browser).check_common_footer()
+    with allure.step('Поиск элементов на странице Проекты'):
+        try:
+            ProjectsPage(browser).get_page_name()
+            CommonHeader(browser).check_common_header()
+            CommonFooter(browser).check_common_footer()
+        except NoSuchElementException as er:
+            allure.attach(
+                body=browser.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError(er.msg)
 
 
 @allure.title("Тест: about page")
 @allure.tag('UI')
 def test_about_page(browser, url):
     browser.get(url=url + AboutPage(browser).URL)
-    AboutPage(browser).get_page_name()
-    CommonHeader(browser).check_common_header()
-    CommonFooter(browser).check_common_footer()
+    with allure.step('Поиск элементов на странице About'):
+        try:
+            AboutPage(browser).get_page_name()
+            CommonHeader(browser).check_common_header()
+            CommonFooter(browser).check_common_footer()
+        except NoSuchElementException as er:
+            allure.attach(
+                body=browser.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError(er.msg)
