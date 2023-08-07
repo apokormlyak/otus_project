@@ -5,7 +5,7 @@ pipeline {
         steps {
     	catchError {
       	   script {
-        	      sh"docker build -t try_again_tests ."
+        	      sh"docker build -t tests ."
       	     }
           }
        }
@@ -21,9 +21,7 @@ pipeline {
      stage('Run tests') {
         steps {
            sh"""
-           docker run -it try_again_tests --bversion ${bversion}
-           --executor ${executor} --browser ${browser}
-           --url ${url}
+           docker run -it tests --executor ${executor} --browser ${browser}
            """
          }
      }
