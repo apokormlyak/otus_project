@@ -9,7 +9,7 @@ def pytest_addoption(parser):
     parser.addoption('--browser', default='chrome')
     parser.addoption('--driver_folder', default='/home/alisapokormlyak/Desktop/drivers')
     parser.addoption('--url', default='https://www.openbrewerydb.org/')
-    parser.addoption("--executor", action="store", default="https://www.openbrewerydb.org/")
+    parser.addoption("--executor", action="store", default="127.0.0.1")
     parser.addoption("--bversion", action="store", default="114.0")
     parser.addoption("--vnc", action="store_true", default=False)
     parser.addoption("--logs", action="store_true", default=False)
