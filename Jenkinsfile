@@ -25,18 +25,12 @@ pipeline {
               script {
           	     docker.image('aerokube/selenoid:1.10.12').run('-p 4444:4444 -v /run/docker.sock:/var/run/docker.sock -v $PWD:/etc/selenoid/',
             	'-timeout 600s -limit 2')
-              	docker.image('tests').run('--network=${network}')
+              	docker.image('tests').run('--network=${network} --it')
 
         	     }
       	 }
          }
          }
-     stage('build') {
-          steps {
-            sh 'pip --version'
-            sh 'python --version'
-          }
-     }
      stage('Reports') {
         steps {
            allure([
