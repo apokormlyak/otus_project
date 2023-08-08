@@ -30,6 +30,11 @@ pipeline {
         	     }
       	 }
          }
+     stage('build') {
+          steps {
+            sh 'pip --version'
+            sh 'python --version'
+          }
      }
      stage('Reports') {
         steps {
