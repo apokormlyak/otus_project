@@ -30,6 +30,7 @@ pipeline {
         	     }
       	 }
          }
+         }
      stage('build') {
           steps {
             sh 'pip --version'
