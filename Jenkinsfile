@@ -15,7 +15,8 @@ pipeline {
            catchError {
               script {
       	    docker.image('selenoid/chrome:114.0')
-      	    sh "docker network create ping-pong-network"
+      	    sh "docker network connect ping-pong-network selenoid"
+      	    sh "docker network connect ping-pong-network tests"
       	  }
            }
         }
