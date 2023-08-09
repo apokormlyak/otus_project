@@ -25,7 +25,9 @@ pipeline {
               script {
           	     docker.image('aerokube/selenoid:1.10.12').withRun('-p 4444:4444 -v /run/docker.sock:/var/run/docker.sock -v $PWD:/etc/selenoid/',
             	'-timeout 600s -limit 2') { c ->
-            	    sh "docker run --rm --network ${network} tests"
+            	    sh "docker network create ping-pong-network"
+            	    sh "docker run --rm --network ping-pong-network tests"
+
             	}
 
 
