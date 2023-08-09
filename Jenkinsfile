@@ -23,9 +23,11 @@ pipeline {
         steps {
            catchError {
               script {
-          	     docker.image('aerokube/selenoid:1.10.12').run('-p 4444:4444 -v /run/docker.sock:/var/run/docker.sock -v $PWD:/etc/selenoid/',
-            	'-timeout 600s -limit 2')
-              	docker.image('tests').run('--network=${network}')
+          	     docker.image('aerokube/selenoid:1.10.12').withRun('-p 4444:4444 -v /run/docker.sock:/var/run/docker.sock -v $PWD:/etc/selenoid/',
+            	'-timeout 600s -limit 2') { c ->
+            	    docker.image('tests').inside(sh "--network=${network}")
+            	}
+
 
         	     }
       	 }
