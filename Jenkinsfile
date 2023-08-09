@@ -23,10 +23,10 @@ pipeline {
         steps {
            catchError {
               script {
-          	     docker.image('aerokube/selenoid:1.10.12').withRun('-p 4444:4444 --network=ping-pong-network -v /run/docker.sock:/var/run/docker.sock -v $PWD:/etc/selenoid/',
+          	     docker.image('aerokube/selenoid:1.10.12').withRun('-p 4444:4444 --network=host -v /run/docker.sock:/var/run/docker.sock -v $PWD:/etc/selenoid/',
             	'-timeout 600s -limit 2') { c ->
 
-            	    sh "docker run --rm -p 4444:4445 --network=ping-pong-network tests"
+            	    sh "docker run --rm -p 4444:4445 --network=host tests"
 
             	}
 
