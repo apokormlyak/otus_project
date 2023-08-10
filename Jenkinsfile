@@ -21,12 +21,16 @@ pipeline {
      }
      stage('Start selenoid') {
         steps {
-           sh "/home/alisapokormlyak/Desktop/drivers/cm selenoid start"
+            catchError {
+                sh "/home/alisapokormlyak/Desktop/drivers/cm selenoid start"
+        }
         }
      }
      stage('Run tests') {
         steps {
-           sh "docker run --rm --network=${network} tests"
+            catchError {
+                sh "docker run --rm --network=${network} tests"
+         }
          }
          }
      stage('Reports') {
@@ -42,7 +46,9 @@ pipeline {
          }
      stage('Stop selenoid') {
         steps {
-           sh "/home/alisapokormlyak/Desktop/drivers/cm selenoid stop"
+            catchError {
+                sh "/home/alisapokormlyak/Desktop/drivers/cm selenoid stop"
+        }
         }
      }
      }
