@@ -25,12 +25,12 @@ def test_correct_mail_signup(browser):
     with allure.step('Поиск сообщения при корректном входе'):
         try:
             UserSignupPage(browser).correct_mail_signup(users.get_correct_email())
-        except NoSuchElementException as er:
+        except Exception as er:
             allure.attach(
                 body=browser.get_screenshot_as_png(),
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
-            raise AssertionError(er.msg)
+            raise AssertionError(er)
 
 
 @allure.title("Тест: неуспешная подписка")
@@ -40,12 +40,12 @@ def test_wrong_mail_signup(browser):
     with allure.step('Поиск сообщения при некорректном входе'):
         try:
             UserSignupPage(browser).wrong_mail_signup(users.get_wrong_email())
-        except NoSuchElementException as er:
+        except Exception as er:
             allure.attach(
                 body=browser.get_screenshot_as_png(),
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
-            raise AssertionError(er.msg)
+            raise AssertionError(er)
 
 
 @allure.title("Тест: главная страница")
@@ -56,12 +56,12 @@ def test_check_homepage_elements(browser, url):
         try:
             HomePage(browser).check_homepage_elements()
             HomePage(browser).get_button_to_documentation()
-        except NoSuchElementException as er:
+        except Exception as er:
             allure.attach(
                 body=browser.get_screenshot_as_png(),
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
-            raise AssertionError(er.msg)
+            raise AssertionError(er)
         browser.forward()
         WebDriverWait(browser, 5).until(EC.url_contains("documentation"))
         browser.back()
@@ -69,12 +69,12 @@ def test_check_homepage_elements(browser, url):
             try:
                 CommonHeader(browser).check_common_header()
                 CommonFooter(browser).check_common_footer()
-            except NoSuchElementException as er:
+            except Exception as er:
                 allure.attach(
                     body=browser.get_screenshot_as_png(),
                     name="screenshot_image",
                     attachment_type=allure.attachment_type.PNG)
-                raise AssertionError(er.msg)
+                raise AssertionError(er)
 
 
 @allure.title("Тест: brewery page")
@@ -106,23 +106,23 @@ def test_brewery_page(browser, url):
                                                                             .get_previous_page_button()))
                 BreweriesPage(browser).get_previous_page_button()
                 browser.back()
-        except NoSuchElementException as er:
+        except Exception as er:
             allure.attach(
-                body=browser.get_screenshot_as_png(),
+                body=browser.save_screenshot('hi.png'),
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
-            raise AssertionError(er.msg)
+            raise AssertionError(er)
 
     with allure.step('Поиск элементов хэддера и футэра'):
         try:
             CommonHeader(browser).check_common_header()
             CommonFooter(browser).check_common_footer()
-        except NoSuchElementException as er:
+        except Exception as er:
             allure.attach(
                 body=browser.get_screenshot_as_png(),
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
-            raise AssertionError(er.msg)
+            raise AssertionError(er)
 
 
 @allure.title("Тест: docs page")
@@ -135,12 +135,12 @@ def test_docs_page(browser, url):
             DocsPage(browser).get_navigation_buttons()
             CommonHeader(browser).check_common_header()
             CommonFooter(browser).check_common_footer()
-        except NoSuchElementException as er:
+        except Exception as er:
             allure.attach(
                 body=browser.get_screenshot_as_png(),
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
-            raise AssertionError(er.msg)
+            raise AssertionError(er)
 
 
 @allure.title("Тест: faq page")
@@ -152,12 +152,12 @@ def test_faq_page(browser, url):
             FaqPage(browser).get_page_name()
             CommonHeader(browser).check_common_header()
             CommonFooter(browser).check_common_footer()
-        except NoSuchElementException as er:
+        except Exception as er:
             allure.attach(
                 body=browser.get_screenshot_as_png(),
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
-            raise AssertionError(er.msg)
+            raise AssertionError(er)
 
 
 @allure.title("Тест: projects page")
@@ -169,12 +169,12 @@ def test_projects_page(browser, url):
             ProjectsPage(browser).get_page_name()
             CommonHeader(browser).check_common_header()
             CommonFooter(browser).check_common_footer()
-        except NoSuchElementException as er:
+        except Exception as er:
             allure.attach(
                 body=browser.get_screenshot_as_png(),
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
-            raise AssertionError(er.msg)
+            raise AssertionError(er)
 
 
 @allure.title("Тест: about page")
@@ -186,9 +186,9 @@ def test_about_page(browser, url):
             AboutPage(browser).get_page_name()
             CommonHeader(browser).check_common_header()
             CommonFooter(browser).check_common_footer()
-        except NoSuchElementException as er:
+        except Exception as er:
             allure.attach(
                 body=browser.get_screenshot_as_png(),
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
-            raise AssertionError(er.msg)
+            raise AssertionError(er)
