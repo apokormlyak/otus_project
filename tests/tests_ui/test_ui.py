@@ -108,7 +108,7 @@ def test_brewery_page(browser, url):
                 browser.back()
         except Exception as er:
             allure.attach(
-                body=browser.save_screenshot('hi.png'),
+                body=browser.get_screenshot_as_png(),
                 name="screenshot_image",
                 attachment_type=allure.attachment_type.PNG)
             raise AssertionError(er)
