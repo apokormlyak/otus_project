@@ -26,7 +26,7 @@ pipeline {
      }
      stage('Run tests') {
         steps {
-           sh "docker run --rm -p 4444:4445 --network=host tests"
+           sh "docker run --rm --network=${network} tests"
          }
          }
      stage('Reports') {
@@ -40,5 +40,10 @@ pipeline {
     	   ])
   	        }
          }
+     stage('Stop selenoid') {
+        steps {
+           sh "/home/alisapokormlyak/Desktop/drivers/cm selenoid stop"
+        }
+     }
      }
 }
