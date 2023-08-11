@@ -29,7 +29,7 @@ pipeline {
      stage('Run tests') {
         steps {
             catchError {
-                sh "docker run --rm --network=${network} tests"
+                sh "docker run --rm --network=${network} tests --alluredir allure-results"
          }
          }
          }
