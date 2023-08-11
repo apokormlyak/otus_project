@@ -36,12 +36,12 @@ pipeline {
      stage('Reports') {
         steps {
            allure([
-      	   includeProperties: false,
-      	   jdk: '',
-      	   properties: [],
-      	   reportBuildPolicy: 'ALWAYS',
-      	   results: [[path: '/var/lib/jenkins/workspace/final_project/allure-reports']]
-    	   ])
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'target/allure-results']]
+            ])
   	        }
          }
      stage('Stop selenoid') {
