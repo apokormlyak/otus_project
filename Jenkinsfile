@@ -44,5 +44,12 @@ pipeline {
     	   ])
   	        }
          }
+     stage('Stop selenoid') {
+        steps {
+            catchError {
+                sh "/home/alisapokormlyak/Desktop/drivers/cm selenoid stop"
+        }
+        }
+     }
      }
 }
