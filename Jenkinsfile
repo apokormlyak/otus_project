@@ -39,7 +39,7 @@ pipeline {
            allure([
       	   includeProperties: false,
       	   jdk: '',
-      	   properties: [[key: '--clean', value: '']],
+      	   properties: [],
       	   reportBuildPolicy: 'ALWAYS',
       	   results: [[path: '/var/lib/jenkins/workspace/final_project/allure-results']]
     	   ])
