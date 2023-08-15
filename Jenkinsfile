@@ -29,7 +29,7 @@ pipeline {
      stage('Run tests') {
         steps {
             catchError {
-                sh "docker run --name test_run --rm --network=${network} tests; docker cp test_run:app/allure-results /var/lib/jenkins/workspace/final_project/allure-results"
+                sh "docker run --name test_run --network=${network} tests; docker cp test_run:app/allure-results /var/lib/jenkins/workspace/final_project/allure-results"
          }
          }
          }
