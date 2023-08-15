@@ -30,6 +30,7 @@ pipeline {
         steps {
             catchError {
                 sh "docker run --name test_run --network=${network} tests; docker cp test_run:app/allure-results ."
+                sh "docker rm test_run"
          }
          }
          }
