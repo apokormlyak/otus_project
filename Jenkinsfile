@@ -30,7 +30,6 @@ pipeline {
         steps {
             catchError {
                 sh "docker run --name test_run --network=${network} tests; docker cp test_run:app/allure-results ."
-                sh "docker rm test_run"
          }
          }
          }
@@ -49,6 +48,7 @@ pipeline {
         steps {
             catchError {
                 sh "/home/alisapokormlyak/Desktop/drivers/cm selenoid stop"
+                sh "docker rm test_run"
         }
         }
      }
